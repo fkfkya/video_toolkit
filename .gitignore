@@ -1,0 +1,24 @@
+# Виртуальное окружение
+venv/
+
+# Файлы Python
+__pycache__/
+*.pyc
+*.pyo
+
+
+pip-log.txt
+
+# IDE-файлы
+.idea/
+.vscode/
+
+# Видео и кадры
+*.mp4
+*.avi
+*.mov
+*.jpg
+*.png
+output/
+frames/
+venv/
