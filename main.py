@@ -3,6 +3,7 @@
 from video_toolkit.cli.cli import parse_arguments
 from video_toolkit.core import compressor, extractor, config
 from video_toolkit.utils import file_utils
+from video_toolkit.utils import frames_to_video
 import os
 
 def main():
@@ -27,6 +28,11 @@ def main():
         frames_dir = os.path.join(output_dir, config.FRAMES_FOLDERNAME)
         print(f"[INFO] Extracting every {n}-th frame to: {frames_dir}")
         extractor.extract_every_nth_frame(compressed_path, frames_dir, n)
+    if args.assemble:
+        assembled_path = os.path.join(output_dir, "assembled.mp4")
+        frames_to_video(os.path.join(output_dir, config.FRAMES_FOLDERNAME),
+                        assembled_path,
+                        fps=args.fps)
 
 if __name__ == "__main__":
     main()

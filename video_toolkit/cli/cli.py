@@ -4,6 +4,7 @@ import argparse
 from video_toolkit.core import config
 
 def parse_arguments():
+
     parser = argparse.ArgumentParser(
         description="Video Toolkit: compress video and extract every N-th frame."
     )
@@ -44,6 +45,18 @@ def parse_arguments():
         type=int,
         default=config.DEFAULT_CRF,
         help=f"CRF value for compression (default: {config.DEFAULT_CRF})"
+    )
+
+    parser.add_argument(
+        "--assemble",
+        action="store_true",
+        help="Convert extracted frames back to MP4"
+    )
+    parser.add_argument(
+        "--fps",
+        type=int,
+        default=30,
+        help="FPS for assembled video (default: 30)"
     )
 
     parser.add_argument(

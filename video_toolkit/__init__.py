@@ -1,6 +1,10 @@
 from .core import compressor, extractor, config
 from .utils import file_utils
+
 import os
+from .core import compressor, extractor, config
+from .utils import file_utils, frames_to_video
+
 
 def compress_and_extract(
     input_path: str,
