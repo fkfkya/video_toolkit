@@ -1,5 +1,7 @@
+# main.py
+
 from video_toolkit.cli.cli import parse_arguments
-from video_toolkit.core import compressor, extractor
+from video_toolkit.core import compressor, extractor, config
 from video_toolkit.utils import file_utils
 import os
 
@@ -9,19 +11,20 @@ def main():
     input_path = args.input
     output_dir = args.output
     n = args.n
+    crf = args.crf
+    preset = args.preset
 
-    # Ensure output directory exists
     file_utils.ensure_directory(output_dir)
 
     if args.compress:
-        compressed_path = os.path.join(output_dir, "compressed.mp4")
+        compressed_path = os.path.join(output_dir, config.COMPRESSED_FILENAME)
         print(f"[INFO] Compressing video to: {compressed_path}")
-        compressor.compress_video(input_path, compressed_path)
+        compressor.compress_video(input_path, compressed_path, crf=crf, preset=preset)
     else:
-        compressed_path = input_path  # Use original if not compressing
+        compressed_path = input_path  # не сжимаем — работаем с оригиналом
 
     if args.extract:
-        frames_dir = os.path.join(output_dir, "frames")
+        frames_dir = os.path.join(output_dir, config.FRAMES_FOLDERNAME)
         print(f"[INFO] Extracting every {n}-th frame to: {frames_dir}")
         extractor.extract_every_nth_frame(compressed_path, frames_dir, n)
 

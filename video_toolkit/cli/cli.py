@@ -1,4 +1,7 @@
+# video_toolkit/cli/cli.py
+
 import argparse
+from video_toolkit.core import config
 
 def parse_arguments():
     parser = argparse.ArgumentParser(
@@ -13,9 +16,8 @@ def parse_arguments():
 
     parser.add_argument(
         "--output", "-o",
-        required=False,
-        help="Path to the output directory (default: ./output/).",
-        default="output"
+        default="output",
+        help="Path to the output directory (default: ./output)."
     )
 
     parser.add_argument(
@@ -33,8 +35,23 @@ def parse_arguments():
     parser.add_argument(
         "--n",
         type=int,
-        default=10,
-        help="Extract every N-th frame (used only if --extract is set)."
+        default=config.DEFAULT_FRAME_INTERVAL,
+        help=f"Extract every N-th frame (default: {config.DEFAULT_FRAME_INTERVAL})"
+    )
+
+    parser.add_argument(
+        "--crf",
+        type=int,
+        default=config.DEFAULT_CRF,
+        help=f"CRF value for compression (default: {config.DEFAULT_CRF})"
+    )
+
+    parser.add_argument(
+        "--preset",
+        type=str,
+        default=config.DEFAULT_PRESET,
+        choices=["ultrafast", "superfast", "medium", "slow", "veryslow"],
+        help=f"FFmpeg preset (default: {config.DEFAULT_PRESET})"
     )
 
     return parser.parse_args()
