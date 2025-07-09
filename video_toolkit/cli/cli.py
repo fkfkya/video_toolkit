@@ -10,6 +10,12 @@ def parse_arguments():
     )
 
     parser.add_argument(
+        "--ratio",
+        action="store_true",
+        help="Показать коэффициент сжатия после сжатия видео"
+    )
+
+    parser.add_argument(
         "--input", "-i",
         required=True,
         help="Path to the input video file."

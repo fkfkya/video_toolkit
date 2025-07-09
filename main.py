@@ -20,7 +20,12 @@ def main():
     if args.compress:
         compressed_path = os.path.join(output_dir, config.COMPRESSED_FILENAME)
         print(f"[INFO] Compressing video to: {compressed_path}")
-        compressor.compress_video(input_path, compressed_path, crf=crf, preset=preset)
+        compressor.compress_video(input_path, compressed_path)
+
+        if args.ratio:
+            from video_toolkit.utils import calculate_compression_ratio
+            calculate_compression_ratio(input_path, compressed_path)
+
     else:
         compressed_path = input_path  # не сжимаем — работаем с оригиналом
 
@@ -33,6 +38,7 @@ def main():
         frames_to_video(os.path.join(output_dir, config.FRAMES_FOLDERNAME),
                         assembled_path,
                         fps=args.fps)
+
 
 if __name__ == "__main__":
     main()

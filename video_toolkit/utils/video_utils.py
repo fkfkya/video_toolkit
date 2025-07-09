@@ -1,8 +1,24 @@
-# video_toolkit/utils/video_utils.py
 import os
 import cv2
 from natsort import natsorted
 
+def calculate_compression_ratio(original_path: str, compressed_path: str):
+    original_size = os.path.getsize(original_path)
+    compressed_size = os.path.getsize(compressed_path)
+
+    if compressed_size == 0:
+        print("[WARN] Сжатый файл пуст")
+        return 0, 100
+
+    ratio = original_size / compressed_size
+    reduction = (1 - compressed_size / original_size) * 100
+
+    print(f"[INFO] Исходный размер: {original_size / 1024 / 1024:.2f} MB")
+    print(f"[INFO] Сжатый размер: {compressed_size / 1024 / 1024:.2f} MB")
+    print(f"[INFO] Коэффициент сжатия: {ratio:.2f}")
+    print(f"[INFO] Уменьшение: {reduction:.1f}%")
+
+    return ratio, reduction
 
 def frames_to_video(frames_dir: str, output_path: str, fps: int = 30) -> None:
     """
