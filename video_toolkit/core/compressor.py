@@ -1,5 +1,3 @@
-# video_toolkit/core/compressor.py
-
 import subprocess
 import os
 
