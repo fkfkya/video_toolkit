@@ -27,7 +27,7 @@ cd video_toolkit
 - `opencv-python-headless`
 - `numpy==1.24.4`
 
-Установи их из файла `requirements.txt`.
+Установите их из файла `requirements.txt`.
 
 ### Системная зависимость: `ffmpeg`
 
@@ -56,7 +56,7 @@ source venv/bin/activate
 pip install -r requirements.txt
 ```
 
-#### ✅ Windows (в PowerShell или CMD)
+####  Windows (в PowerShell или CMD)
 
 1. Скачайте ffmpeg с https://ffmpeg.org/download.html  
 2. Распакуйте и добавьте путь к `bin/ffmpeg.exe` в `PATH`
