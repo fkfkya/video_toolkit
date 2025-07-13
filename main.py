@@ -1,5 +1,3 @@
-# main.py
-
 from video_toolkit.cli.cli import parse_arguments
 from video_toolkit.core import compressor, extractor, config
 from video_toolkit.utils import file_utils
