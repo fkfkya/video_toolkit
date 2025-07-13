@@ -74,6 +74,9 @@ pip install -r requirements.txt
 
 ### Базовая команда:
 
+python gui/app.py   #в корне проекта с файлом main.py
+
+
 ```bash
 python main.py \
   --input /полный/путь/к/video.mp4 \
