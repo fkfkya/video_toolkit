@@ -12,7 +12,7 @@ def parse_arguments():
     parser.add_argument(
         "--ratio",
         action="store_true",
-        help="Показать коэффициент сжатия после сжатия видео"
+        help="Show compression ratio after video compression"
     )
 
     parser.add_argument(
@@ -32,6 +32,13 @@ def parse_arguments():
         action="store_true",
         help="Enable video compression."
     )
+
+    parser.add_argument(
+        "--preset",
+        type=str,
+        default="medium",
+        choices=["ultrafast", "superfast", "veryfast", "faster", "fast", "medium", "slow", "slower", "veryslow"],
+        help="Encoding preset: faster presets give larger files, slower presets give smaller files.")
 
     parser.add_argument(
         "--extract",
@@ -65,12 +72,5 @@ def parse_arguments():
         help="FPS for assembled video (default: 30)"
     )
 
-    parser.add_argument(
-        "--preset",
-        type=str,
-        default=config.DEFAULT_PRESET,
-        choices=["ultrafast", "superfast", "medium", "slow", "veryslow"],
-        help=f"FFmpeg preset (default: {config.DEFAULT_PRESET})"
-    )
 
     return parser.parse_args()

@@ -1,5 +1,5 @@
-import cv2
 import os
+import subprocess
 
 def extract_every_nth_frame(video_path: str, output_folder: str, n: int):
     """
@@ -8,27 +8,35 @@ def extract_every_nth_frame(video_path: str, output_folder: str, n: int):
     :param video_path: Путь к видеофайлу
     :param output_folder: Папка для сохранения кадров
     :param n: Интервал кадров (каждый n-й)
+
+    Реализация через ffmpeg: значительно быстрее, чем покадровое чтение через OpenCV.
     """
+
+    if n < 1:
+        raise ValueError("n должно быть >= 1")
+
     os.makedirs(output_folder, exist_ok=True)
 
-    cap = cv2.VideoCapture(video_path)
-    if not cap.isOpened():
-        raise ValueError(f"Cannot open video file: {video_path}")
+    pattern = os.path.join(output_folder, "frame_%05d.jpg")
+    vf = f"select='not(mod(n\\,{n}))'"
 
-    frame_index = 0
-    saved_count = 0
+    cmd = [
+        "ffmpeg", "-y", "-hide_banner", "-loglevel", "error",
+        "-i", video_path,
+        "-vf", vf,
+        "-vsync", "vfr",    # корректная нумерация при пропуске кадров
+        "-start_number", "0",
+        pattern,
+    ]
 
-    while True:
-        ret, frame = cap.read()
-        if not ret:
-            break
+    try:
+        subprocess.run(cmd, check=True)
+    except subprocess.CalledProcessError as e:
+        raise ValueError(f"Cannot extract frames with ffmpeg: {e}") from e
 
-        if frame_index % n == 0:
-            filename = os.path.join(output_folder, f"frame_{saved_count:05}.jpg")
-            cv2.imwrite(filename, frame)
-            saved_count += 1
+    saved_count = sum(
+        1 for f in os.listdir(output_folder)
+        if f.startswith("frame_") and f.endswith(".jpg")
+    )
 
-        frame_index += 1
-
-    cap.release()
     print(f"[SUCCESS] Extracted {saved_count} frames to {output_folder}")

@@ -4,6 +4,12 @@ from video_toolkit.utils import file_utils
 from video_toolkit.utils import frames_to_video
 import os
 
+def make_compressed_name(input_path: str, output_dir: str) -> str:
+    base = os.path.basename(input_path)
+    name, ext = os.path.splitext(base)
+    return os.path.join(output_dir, f"{name}_compressed{ext}")
+
+
 def main():
     args = parse_arguments()
 
@@ -16,7 +22,7 @@ def main():
     file_utils.ensure_directory(output_dir)
 
     if args.compress:
-        compressed_path = os.path.join(output_dir, config.COMPRESSED_FILENAME)
+        compressed_path = make_compressed_name(input_path, output_dir)
         print(f"[INFO] Compressing video to: {compressed_path}")
         compressor.compress_video(input_path, compressed_path)
 
